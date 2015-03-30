@@ -1,0 +1,27 @@
+#dane playera
+position=0,5000,0;
+atak=3;
+rotation=0,0,0;
+fizObject=sphere,17;
+#fizRadius=17;
+mesh=models/player1.X;
+texture=textures/electr.jpg;
+movementForce=250;
+jumpForce=10000;
+mass=70;
+gravitation=0,-9.78,0;
+inertia=10;
+staticFriction=0.4;
+kineticFriction=0.2;
+restitution=0.99;
+turnForce=0,5,0;
+#
+HP=95;
+maxLoad=10000;
+rAction=70;
+rAttack=70;
+angleAction=30;
+angleAttack=25;
+defense=0.5;
+strength=10;
+regeneration=1;

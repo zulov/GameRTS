@@ -1,0 +1,26 @@
+name=banan;
+type=food;
+id=11;
+opis=to jest bananek;
+meshPath=models/banana_1.X;
+texturePath=textures/banana_1.jpg;
+iconPath=textures/icon/bananIcon*.png;
+#tu pewnie trzeba jeszce okreslic mase 
+#roznych paramatrow bo to do gui chyba powinno pojsc
+alive=false;
+actionAble=true;
+attackAble=false;
+takeAble=true;
+endurace=10;
+waga=100;
+kCal=100;
+poison=0;
+fresh=100;
+#fizyczne
+collision=sphere;
+radius=5;
+staticFriction=0.4;
+kineticFriction=0.2;
+coefficientOfRestitution=0.1;
+surface=10;
+masa=0.2;

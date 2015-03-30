@@ -1,0 +1,26 @@
+name=stone;
+type=none;
+id=12;
+opis=wielki kamor;
+meshPath=models/stones_2.obj;
+texturePath=textures/stone_1.jpg;
+iconPath=textures/icon/stone_1.jpg;
+#tu pewnie trzeba jeszce okreslic mase 
+#roznych paramatrow bo to do gui chyba powinno pojsc
+alive=false;
+actionAble=false;
+attackAble=false;
+takeAble=false;
+endurace=5;
+waga=1000;
+kCal=0;
+poison=0;
+fresh=100;
+#fizyczne
+collision=sphere;
+radius=350;
+staticFriction=0.4;
+kineticFriction=0.2;
+coefficientOfRestitution=0.1;
+surface=10;
+masa=0.2;

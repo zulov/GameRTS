@@ -1,0 +1,4 @@
+#spis gui do wczytania jako loading screen
+path=settings/gui/loadingScreen.gui;
+pathA=settings/gui/startLoading.gui;
+#

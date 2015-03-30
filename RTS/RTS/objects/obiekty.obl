@@ -1,0 +1,5 @@
+#spis obiektów do wczytania
+path=objects/banan.obp;
+path=objects/plant.obp;
+path=objects/stone.obp;
+#

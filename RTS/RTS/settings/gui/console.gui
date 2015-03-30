@@ -1,0 +1,23 @@
+amount=1;
+numberLines=12,15,23,30;
+#pozycja absolutna
+absX=1;
+absY=1;
+##
+type=5;
+#scieżka
+path=textures/gui/consoleA.png;
+#rozmiary
+
+sizeX=768,1152,1536,2310;
+sizeY=133,200,300,400;
+
+#txCordX=300,400,600,800;
+#txCordY=0,0,0,0;
+
+posX%=1;
+posY%=60;
+
+#pathFont=textures/gui/fonthaettenschweiler.bmp;
+
+pathFont=textures/gui/fonts/curier*.png;

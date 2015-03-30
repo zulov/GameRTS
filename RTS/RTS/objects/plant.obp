@@ -1,0 +1,21 @@
+name=plant;
+type=none;
+id=10;
+opis=przepienkna roslinka;
+meshPath=models/plant_1.X;
+texturePath=textures/plant_1.jpg;
+iconPath=textures/icon/plant_1.jpg;
+#tu pewnie trzeba jeszce okreslic mase 
+#roznych paramatrow bo to do gui chyba powinno pojsc
+alive=false;
+actionAble=true;
+attackAble=false;
+takeAble=false;
+endurace=5;
+waga=100;
+kCal=0;
+poison=0;
+fresh=100;
+#fizyczne
+collision=none;
+masa=0;

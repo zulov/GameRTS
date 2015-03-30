@@ -1,0 +1,15 @@
+amount=1;
+type=10;
+#scieżka
+path=textures/gui/cursor*.png;
+#rozmiary
+sizeX=16,24,36,44;
+sizeY=16,24,36,44;
+#
+#pozycja procentowa
+posX%=50;
+posY%=50;
+#
+aX=0;
+aY=0;
+

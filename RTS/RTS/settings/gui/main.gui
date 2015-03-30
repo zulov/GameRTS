@@ -1,0 +1,11 @@
+#spis gui do wczytania
+#wprowadzic inne mozliwsoci polozenia obraazkan np pivot jako srodek obrazka
+#dolozyc alfe do oglnej przezroczystosci obrazka
+path=settings/gui/paski.gui;
+pathA=settings/gui/Apaski.gui;
+path=settings/gui/pasek.gui;
+path=settings/gui/item.gui;
+pathT=settings/gui/itemTable.gui;
+pathM=settings/gui/cursor.gui;
+pathC=settings/gui/console.gui;
+#

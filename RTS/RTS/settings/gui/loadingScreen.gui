@@ -1,0 +1,17 @@
+amount=1;
+type=0;
+#scieżka
+path=textures/gui/loadingScreen*.png;
+#rozmiary
+sizeX=853,1366,1920,2560;
+sizeY=480,768,1080,1440;
+#pozycja procentowa
+posX=0;
+posY=0;
+
+#
+#posX
+#
+visX%=100;
+visY%=100;
+#visible

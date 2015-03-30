@@ -1,0 +1,27 @@
+amount=2;
+type=0;
+#scieżka
+path=textures/gui/loadBar*.png;
+path=textures/gui/loadingBar*.png;
+#rozmiary
+sizeX=480,720,1080,1440;
+sizeY=24,36,53,65;
+sizeX=480,720,1080,1440;
+sizeY=24,36,54,66;
+#
+#pozycja procentowa
+posX%=23.6;
+posY%=90;
+posX%=23.6;
+posY%=90;
+#
+#posX
+#
+#visible
+#activeValue
+activeValueX=-1;
+activeValueY=-1;
+activeValueX=0;
+activeValueY=-1;
+
+

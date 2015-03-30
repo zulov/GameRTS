@@ -1,0 +1,14 @@
+amount=1;
+absX=292,450,657,803;
+absY=70,105,157,192;
+gap=6,9,13,16;
+itemWidth=28,42,63,77;
+itemHeight=28,42,63,77;
+maxItemX=12;
+maxItemY=6;
+type=1;
+pathFont=textures/gui/fonts/arial*.png;
+txCordX=300,400,600,800;
+txCordY=0,0,0,0;
+#scieżka
+path=textures/gui/window*.png;

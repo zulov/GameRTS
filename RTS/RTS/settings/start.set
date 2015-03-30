@@ -1,0 +1,25 @@
+#ustawienia startowe Vyspa 2013
+qShadow=1;
+heightresolution=768;
+weidthresolution=1366;
+#heightresolution=480;
+#weidthresolution=853;
+colordepth=32;
+fullscreen=false;
+vsync=false;
+stencil=true;
+hudsize=medium;
+#outputfile
+outputFilePath=logs/consoleOut.txt;
+#moze dodac dokladne wartosci rozmiaru obrazka bedzie czytalniej
+#i elastyczniej
+#gui w plikach do wczytania
+#sciezki plikow poczatkowych
+#skybox  
+
+#
+S=1;
+M=2;
+L=3;
+X=4;
+#

@@ -1,0 +1,19 @@
+# zrobic tak zeby element calosci tez mial pozycjie a wtedy jego pod elementy beda mie pozycjie relatywna do tego 
+amount=1;
+type=0;
+#scieżka
+path=textures/gui/skrotHUD*.png;
+#rozmiary
+
+sizeX=295,443,665,440;
+sizeY=32,48,72,44;
+#
+#pozycja procentowa
+posX%=33.3;
+posY%=93;
+#
+#posX
+#
+visX%=100;
+visY%=100;
+#visible

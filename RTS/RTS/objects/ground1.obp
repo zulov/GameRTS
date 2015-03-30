@@ -1,0 +1,18 @@
+name=ground;
+type=none;
+id=1;
+opis=Wyspa numer 1;
+meshPath=models/ground_7.obj;
+texturePath=textures/island_texture.jpg;
+alive=false;
+actionAble=false;
+attackAble=false;
+takeAble=false;
+#fizyczne
+collision=ground;
+numberOfVertex=81;
+realSize=64000;
+staticFriction=0.5;
+kineticFriction=0.2;
+coefficientOfRestitution=0.3;
+masa=0;

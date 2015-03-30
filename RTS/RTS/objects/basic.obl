@@ -1,0 +1,3 @@
+#spis obiektów do wczytania
+path=objects/ground1.obp;
+path=objects/sea1.obp;

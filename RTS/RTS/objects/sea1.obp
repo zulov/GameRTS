@@ -1,0 +1,18 @@
+name=morze;
+type=none;
+id=2;
+opis=Morze numer 1;
+meshPath=models/sea_3.obj;
+texturePath=textures/sea_1.jpg;
+alive=false;
+actionAble=false;
+attackAble=false;
+takeAble=false;
+#fizyczne
+collision=water;
+numberOfVertex=2;
+realSize=256000;
+staticFriction=0.5;
+kineticFriction=0.2;
+coefficientOfRestitution=0.01;
+masa=0;
