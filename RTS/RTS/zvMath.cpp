@@ -1,17 +1,18 @@
 #include "zvMath.h"
+
 Vector::Vector(){x=y=z=0;}
-Vector::Vector(double _x,double _y,double _z){
+Vector::Vector(float _x,float _y,float _z){
 	x=_x;
 	y=_y;
 	z=_z;
 }
-double Vector::length(){
+float Vector::length(){
 	return sqrt(x*x+y*y+z*z);
 }
 
 void Vector::normalize (void)
 {
-	double fLength;
+	float fLength;
 	fLength = length ();
 
 	if (0 != fLength)
@@ -35,17 +36,17 @@ Vector Vector::perpendicular (void)
 	return Vector (y, -x,z);///tu zrobic cos sensownego
 }
 
-double Vector::dotProduct (Vector  rkVector)
+float Vector::dotProduct (Vector  rkVector)
 {
 	return x * rkVector.x +y * rkVector.y+z * rkVector.z;
 }
 
-double Vector::angle (Vector & rkVector)
+float Vector::angle (Vector & rkVector)
 {
-	return (double) acos (dotProduct (rkVector) /(length() * rkVector.length()));
+	return (float) acos (dotProduct (rkVector) /(length() * rkVector.length()));
 }
 
-double Vector::perpDotProduct (Vector & rkVector)
+float Vector::perpDotProduct (Vector & rkVector)
 {
 	return perpendicular ().dotProduct (rkVector);
 }
@@ -64,11 +65,11 @@ void Vector::setVector (Vector & rkVector)
 	z = rkVector.z;
 
 }
-double Vector::horizLength (void){
+float Vector::horizLength (void){
 	return sqrt(x*x+z*z);
 }
 
-//double * Vector::getVector (void)
+//float * Vector::getVector (void)
 //{
 // return  this;
 //}

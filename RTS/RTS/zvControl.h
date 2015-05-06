@@ -46,7 +46,7 @@ public:
 	float getWheelState();
 	int getMouseX();
 	int getMouseY();
-	int control(IrrlichtDevice * device,f32 frameDeltaTime,Player*player,ListObject*allObiekt, MainGUI * mainGUI,CameraManager * cameraManager);
+	int control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allObiekt, MainGUI * mainGUI,CameraManager * cameraManager);
 private:
 	// U¿ywamy by zgromadziæ aktualny stan ka¿dego klawisza (klucza)
 	bool KeyIsDown[ KEY_KEY_CODES_COUNT ];

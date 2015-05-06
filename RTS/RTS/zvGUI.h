@@ -101,18 +101,13 @@ class ActiveElementGUI:public ElementGUI{
 //ListObject *allObiekty;
 ActiveElementGUI();
 
-std::vector<double *> activeSizeX;
-std::vector<double *> activeSizeY;
+std::vector<float *> activeSizeX;
+std::vector<float *> activeSizeY;
 virtual void drawElement(void);
 virtual int addActiveX(int actX);
 virtual int addActiveY(int actY);
 };
-class PlayerElementGUI:public ActiveElementGUI{
-public:
-Player *player;
-virtual void drawElement(void);
-PlayerElementGUI();
-};
+
 class CursorGUI:public ElementGUI{
 public:
 int cordX,cordY;
@@ -132,7 +127,7 @@ public:
 void drawGUI();
 void addElement(ElementGUI* elem);
 void loadGUI(void);
-void refreshItems(Plecak* plecak);
+
 MainGUI();
 };
 class ConsoleGUI:public ElementGUI{

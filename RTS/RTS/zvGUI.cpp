@@ -1,6 +1,6 @@
 #include "zvGUI.h"
 #include "zvGame.h"
-//class Game;
+
 int Cursor::x;
 int Cursor::y;
 CursorGUI * Cursor::kursorGUI;
@@ -36,8 +36,7 @@ ActiveElementGUI::ActiveElementGUI():ElementGUI(){
 }
 TableGUI::TableGUI():ElementGUI(){
 }
-PlayerElementGUI::PlayerElementGUI():ActiveElementGUI(){
-}
+
 ConsoleGUI::ConsoleGUI(int _visibleLines):ElementGUI(){
 	visibleLines=_visibleLines;
 }
@@ -92,20 +91,7 @@ void ElementGUI::addImage(int x,int y,int rozX,int rozY,irr::video::ITexture* im
 	cords2d.push_back(cord);
 }
 
-void MainGUI::refreshItems(Plecak* plecak){
-	if (plecak->flagaChange==true){//bez sensu takie przeszukiwanie to kiedys trzeba zmienic
-		for(int i=0;i<listElement.size();i++){
-			TableGUI* tableGUI = dynamic_cast<TableGUI*>(listElement.at(i));//to tez jest zle bo trzeba identyfikowac konkretnie elementy
-			if (tableGUI!=0){
-				tableGUI->images.clear();
-				for(int j=0;j<plecak->listaRzeczy.size();j++){
-					tableGUI->addImage(0,0,0,0,plecak->listaRzeczy.at(j)->image,-1,-1,0,0);
-				}
-			}
-		}
-		plecak->flagaChange==true;
-	}
-}
+
 void ElementGUI::drawElement(){
 	for(int i=0;i<images.size();i++){
 		Game::ivideo->draw2DImage(images.at(i),irr::core::position2d<irr::s32>(cords2d.at(i)->x,cords2d.at(i)->y),irr::core::rect<irr::s32>(0,0,cords2d.at(i)->visibleX,cords2d.at(i)->visibleY),0,irr::video::SColor(255,255,255,255), true);
@@ -211,18 +197,6 @@ int ElementGUI::addActiveX(int actX){
 	return 0;
 }
 
-void PlayerElementGUI::drawElement(){
-	// double roz=156.0;//to jakos uelastycznic
-	//   std::cout<<cords2d.size()<<std::endl;
-	cords2d.at(0)->visibleX=cords2d.at(0)->rozX*(this->player->HP/100);
-	cords2d.at(1)->visibleX=cords2d.at(1)->rozX*(this->player->thirst/100);
-	cords2d.at(2)->visibleX=cords2d.at(2)->rozX*(this->player->hunger/100);
-	cords2d.at(3)->visibleX=cords2d.at(3)->rozX*(this->player->tired/100);
-
-	for(int i=0;i<images.size();i++){
-		Game::ivideo->draw2DImage(images.at(i), irr::core::position2d<irr::s32>(cords2d.at(i)->x,cords2d.at(i)->y),irr::core::rect<irr::s32>(0,0,cords2d.at(i)->visibleX,cords2d.at(i)->visibleY),0,irr::video::SColor(255,255,255,255), true);
-	}
-}
 
 void ElementGUI::loadFont(irr::gui::IGUIFont* font){
 	this->font=font;

@@ -1,5 +1,5 @@
 #include "zvSettings.h"
-//poprawic nazwe pliku bo jest zla
+
 Settings::Settings(){
 }
 int Settings::getHudSizeI(){

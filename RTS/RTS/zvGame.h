@@ -11,11 +11,12 @@
 #include "zvCamera.h"
 #include "zvEnums.h"
 #include <irrlicht.h>
+
 using namespace irr;
 using namespace core;
 using namespace scene;
 using namespace video;
-
+using namespace gui;
 using namespace std;
 
 class  Game{
@@ -35,9 +36,8 @@ public:
 	static PhysicWorld * fizWorld;
 	static Settings * settStart;
 	static SettLoader * settLoader;
-	static Player* player;
-	////
-	static double frameDeltaTime;
+
+	static float frameDeltaTime;
 	static unsigned long prevTime;
 
 	static void setDevice(IrrlichtDevice * _device);
@@ -50,7 +50,7 @@ public:
 	static void setFizWorld(PhysicWorld * _fizWorld);
 	static void setSettings(Settings * _settStart);
 	static void setSettLoader(SettLoader * _settLoader);
-	static void setGracz(Player* _player);
+
 
 	static void prepareIrrlicht();
 	static void prepareZv();
@@ -58,8 +58,8 @@ public:
 	static Camera * prepereCamera(int mode);
 
 	static MainGUI * getGUI(int num);
-	static double computeTimeDiff();
-	static double getTimeDiff();
+	static float computeTimeDiff();
+	static float getTimeDiff();
 	static void loadMap(std::string path);
 
 	static void update_ai();
@@ -68,16 +68,12 @@ public:
 ////////////////
 
 void make_scena(ISceneManager * menage, IVideoDriver * ivideo, PhysicWorld*fizWorld, ListObject* allObiekt);
-void make_enemies(ISceneManager * menage, IVideoDriver * ivideo, PhysicWorld*fizWorld, ListObject* allObiekt);
-void make_things(ISceneManager * menage, IVideoDriver * ivideo, PhysicWorld*fizWorld, ListObject* allObiekt);
-void make_obiekty(ISceneManager * menage, IVideoDriver * ivideo, PhysicWorld*fizWorld, ListObject* allObiekt);
+
 void show_fps(int lastFPS);
-Player* make_gracz(ISceneManager * menage, IVideoDriver * ivideo, PhysicWorld*fizWorld, ListObject* allObiekt);
 
 bool collision(ISceneNode* one, ISceneNode* two);
 
-void update_ai(ListObject* allObiekt, Player *player);
 void update_alive(ListObject* allObiekt, PhysicWorld* fizWorld);
-void update_stat(double fstep);
+void update_stat(float fstep);
 ////////////////
 #endif

@@ -8,7 +8,7 @@
 
 
 class Object{
-private:
+protected:
 	std::string name;
 	std::string description;
 
@@ -23,14 +23,20 @@ private:
 	bool actionAble;
 	bool attackAble;
 
-	PhysicObject *bodyFiz;
-	irr::scene::IMeshSceneNode *bodyIrr;
-	irr::scene::IAnimatedMeshSceneNode *bodyIrrAnim;
-	irr::video::ITexture* image;
-	std::string getName(void);
+	PhysicObject *physicBody;
+	IMeshSceneNode *mesh;
+	ITexture* image;
+
 
 public:	
 	virtual void  move(float x,float z);
+	std::string getName(void);
+	PhysicObject * getPhysicBody();
+	void setPhysicBody(PhysicObject *_physicBody);
+	IMeshSceneNode * getMesh();
+	void setMesh(IMeshSceneNode *_mesh);
+	bool getAlive();
+	void setAlive(bool _alive);
 	Object();
 };
 struct ObjectProperties{
@@ -87,7 +93,7 @@ public:
 };
 class Alive:public Object{
 private:
-	float attack;
+	float attackCoef;
 	float health;
 	float regeneration;
 	float speed; 
@@ -153,13 +159,6 @@ public:
 	Infantry();
 };
 
-
-class Artillery: public Solider{
-private:
-	
-public:	
-	Artillery();
-};
 
 class Artillery: public Solider{
 private:

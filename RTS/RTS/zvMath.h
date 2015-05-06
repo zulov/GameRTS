@@ -3,13 +3,13 @@
 #include <cmath>
 class Vector{
   public:
-    double x;
-    double y;
-    double z;
+    float x;
+    float y;
+    float z;
     //funkcja wez wartosc z trzech
-double length();
+float length();
 Vector();
-Vector(double _x,double _y,double _z);
+Vector(float _x,float _y,float _z);
 Vector operator+ ( Vector v )
 {
     return Vector( this->x + v.x, this->y + v.y, this->z + v.z );
@@ -22,7 +22,7 @@ Vector operator- ( Vector v )
 {
     return Vector( this->x - v.x, this->y - v.y, this->z - v.z );
 }
-Vector operator* ( const double &A )
+Vector operator* ( const float &A )
 {
      Vector ret;
     ret.x = this->x * A;
@@ -49,19 +49,19 @@ Vector & operator -= (Vector  rkVector)
  z -= rkVector.z;
  return *this;
 }
-Vector operator / (double iDivider)
+Vector operator / (float iDivider)
 {
 	return Vector (x / iDivider,y/ iDivider,z/iDivider);
 }
-    double Length (void);
-    double horizLength (void);
+    float Length (void);
+    float horizLength (void);
 	void normalize (void);
 	Vector perpendicular (void);
-	double dotProduct (Vector  rkVector);
-	double angle (Vector & rkVector);
-	double perpDotProduct (Vector & rkVector);
+	float dotProduct (Vector  rkVector);
+	float angle (Vector & rkVector);
+	float perpDotProduct (Vector & rkVector);
 	void reset (void);
 	void setVector (Vector & rkVector);
-	double * getVector (void);
+	float * getVector (void);
 };
 #endif

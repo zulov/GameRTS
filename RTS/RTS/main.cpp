@@ -8,7 +8,7 @@ using namespace scene;
 using namespace video;
 using namespace std;
 
-double loadProgres;
+float loadProgres;
 
 int main(){ 
 
@@ -34,9 +34,8 @@ int main(){
 	while( Game::device->run() ){
 		Game::computeTimeDiff();
 		//        show_fps(Game::device,Game::ivideo,lastFPS);
-		if(Game::klawiatura->control(Game::device,Game::getTimeDiff(),Game::player,Game::allObiekt, Game::getGUI(1),Game::cameraManager)==-1){Console::saveConsole(0); return 0;}
+		if(Game::klawiatura->control(Game::device,Game::getTimeDiff(),Game::allObiekt, Game::getGUI(1),Game::cameraManager)==-1){Console::saveConsole(0); return 0;}
 		//        update_alive(Game::allObiekt,Game::fizWorld);
-		Game::player->update_stat(Game::getTimeDiff());
 		Game::fizWorld->move(Game::getTimeDiff());
 		Game::fizWorld->collision(Game::getTimeDiff());
 		Cursor::updateCursor(Game::klawiatura->getMouseX(),Game::klawiatura->getMouseY());

@@ -76,7 +76,7 @@ bool Control::OnKeyUp(irr::EKEY_CODE key){
 	return true;
 }
 
-int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,Player*player,ListObject*allObiekt, MainGUI * mainGUI,CameraManager * cameraManager){
+int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allObiekt, MainGUI * mainGUI,CameraManager * cameraManager){
 	float moveFactor=150;
 	if( getWheelState()!=0 ){
 		cameraManager->moveActiveCamera(vector3df(0,-2*moveFactor*getWheelState(),0));
@@ -141,7 +141,7 @@ int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,Player*player,Li
 	}
 	if( this->IsKeyDown( irr::KEY_F1 ) )
 	{
-		player->bodyFiz->setLinearVelocity(Vector(0,0,0));
+		
 	}
 	if( this->IsMousePressed() )
 	{

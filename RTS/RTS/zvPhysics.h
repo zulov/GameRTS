@@ -10,103 +10,103 @@ class PhysicObject{
     int tag;
     bool colide;
     Vector grav;
-    double masa;
-    double sprintFactor;
-    double maxSpeed;
-    double jumpForce;
-    double surface;
+    float masa;
+    float sprintFactor;
+    float maxSpeed;
+    float jumpForce;
+    float surface;
     Vector position;
     Vector turnForce;//=Vector(0,0,0);
     Vector rotation;
-    double peneDist;
-    Vector move(double timeDif);
+    float peneDist;
+    Vector move(float timeDif);
     Vector centerOfMass;
-    double mass;
-    double inertia;
-    double staticFriction;
-    double kineticFriction;
-    double restitution;
+    float mass;
+    float inertia;
+    float staticFriction;
+    float kineticFriction;
+    float restitution;
     Vector linearVelocity;
-    double orientation;
-    double angularVelocity;
+    float orientation;
+    float angularVelocity;
     Vector angularVelocityVector;
 
     Vector totalForce;
-    double totalTorque;
+    float totalTorque;
     Vector totalTorqueVector;
     Vector frictionForce;
     Vector resistForce;
-    double totalImpulse;
+    float totalImpulse;
 
     PhysicObject();
     ~PhysicObject();
-    PhysicObject(double _masa,double _x,double _y,double _z);
+    PhysicObject(float _masa,float _x,float _y,float _z);
     Vector getRotation();
     Vector getPosition();
     void setRotation(Vector rot);
     virtual int collision(PhysicObject *ob);
 
-    void simulate (double fStep);
+    void simulate (float fStep);
     void applyLinearForce (Vector rkForce);
-    void applyTorque (double fTorque);
+    void applyTorque (float fTorque);
     void applyTorque (Vector fTorque);
     void applyForce (Vector & rkForce, Vector & rkPointOfContact);
-    void applyFriction (double fGravity);
+    void applyFriction (float fGravity);
     void applyResist ();
     void handleCollision (PhysicObject *rkOtherEntity, Vector  rkCollisionNormal);
     void setPosition (Vector  rkPosition);
-    void setOrientation (double fOrientation);
+    void setOrientation (float fOrientation);
     void setLinearVelocity (Vector rkLinearVelocity);
-    void setAngularVelocity (double fAngularVelocity);
-    void setMass (double fMass);
+    void setAngularVelocity (float fAngularVelocity);
+    void setMass (float fMass);
     void setCenterOfMass (Vector & rkCenterOfMass);
-    void setInertia (double fInertia);
-    void setStaticFriction (double fStaticFrictionCoefficient);
-    void setKineticFriction (double fKineticFrictionCoefficient);
-    void setCoefficientOfRestitution (double fCoefficientOfRestitution);
+    void setInertia (float fInertia);
+    void setStaticFriction (float fStaticFrictionCoefficient);
+    void setKineticFriction (float fKineticFrictionCoefficient);
+    void setCoefficientOfRestitution (float fCoefficientOfRestitution);
     void HandleCollision (PhysicObject  rkOtherEntity, Vector rkCollisionNormal);
-    double getOrientation (void);
+    float getOrientation (void);
     Vector getLinearVelocity (void);
-    double getAngularVelocity (void);
-    double getMass (void);
+    float getAngularVelocity (void);
+    float getMass (void);
     Vector getCenterOfMass (void);
-    double getInertia (void);
-    double getStaticFriction (void);
-    double getKineticFriction (void);
-    double getCoefficientOfRestitution (void);
+    float getInertia (void);
+    float getStaticFriction (void);
+    float getKineticFriction (void);
+    float getCoefficientOfRestitution (void);
 };
 class PhysicSphere :public PhysicObject{
     public:
-    double radius;
+    float radius;
     PhysicSphere();
-    PhysicSphere(double _masa,double _x,double _y,double _z,double _radius);
+    PhysicSphere(float _masa,float _x,float _y,float _z,float _radius);
     virtual int collision(PhysicObject *ob);
 };
 class PhysicBox :public PhysicObject{
 public:
-    double xLength;
-    double yLength;
-    double zLength;
+    float xLength;
+    float yLength;
+    float zLength;
     PhysicBox();
-    PhysicBox(double _xLength,double _yLength,double _zLength);
+    PhysicBox(float _xLength,float _yLength,float _zLength);
 };
 class PhysicGround:public PhysicObject{
 public:
     int nSize;
-    double fizSize;
-    std::vector<std::vector<double> > mapHeigth;
+    float fizSize;
+    std::vector<std::vector<float> > mapHeigth;
     PhysicGround(int n,int rozm);
-    double getHeight(int x,int y);
-    double getHeight(double x,double z);
+    float getHeight(int x,int y);
+    float getHeight(float x,float z);
 };
 class PhysicWorld{
 public:
-    double gravitation;
-    double maxDokladnosc;//im mniej tym dokladniej
+    float gravitation;
+    float maxDokladnosc;//im mniej tym dokladniej
     std::vector<PhysicObject*> obiekty;
-    PhysicWorld(double _gravitation,double _maxDokladnosc);
+    PhysicWorld(float _gravitation,float _maxDokladnosc);
     PhysicWorld();
-    void move(double timeDif);//ruch plus grawitacja
-    int collision(double timeDif);
+    void move(float timeDif);//ruch plus grawitacja
+    int collision(float timeDif);
 };
 #endif

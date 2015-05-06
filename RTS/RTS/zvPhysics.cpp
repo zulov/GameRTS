@@ -1,10 +1,8 @@
-// *** ADDED BY HEADER FIXUP ***
 #include <iterator>
-// *** END ***
 #include "zvPhysics.h"
 
 
-PhysicObject::PhysicObject(double _masa,double _x,double _y,double _z){
+PhysicObject::PhysicObject(float _masa,float _x,float _y,float _z){
 	masa=_masa;
 	mass=_masa;
 	position=Vector(_x,_y,_z);
@@ -26,7 +24,7 @@ PhysicObject::PhysicObject(double _masa,double _x,double _y,double _z){
 	frictionForce              = Vector (0, 0,0);
 	sprintFactor=1.66;
 }
-PhysicSphere::PhysicSphere(double _masa,double _x,double _y,double _z,double _radius):PhysicObject(_masa,_x,_y,_z){
+PhysicSphere::PhysicSphere(float _masa,float _x,float _y,float _z,float _radius):PhysicObject(_masa,_x,_y,_z){
 	radius=_radius;
 }
 PhysicSphere::PhysicSphere(void){
@@ -48,7 +46,7 @@ void PhysicObject::setRotation(Vector rot){
 	rotation=rot;
 }
 
-Vector PhysicObject::move(double timeDif){
+Vector PhysicObject::move(float timeDif){
 	if(this->masa!=0){
 		// this->prevPosition=this->position;
 		//    Vector accelStep=this->acceleration*(timeDif*this->masa);
@@ -68,15 +66,15 @@ int PhysicSphere::collision(PhysicObject *ob){
 	PhysicSphere* obSphere = dynamic_cast<PhysicSphere*>(ob);
 
 	if(obSphere!=0){
-		double suma=this->radius+obSphere->radius;
-		double xDif=(this->position.x-obSphere->position.x);
-		double yDif=(this->position.y-obSphere->position.y);
-		double zDif=(this->position.z-obSphere->position.z);
+		float suma=this->radius+obSphere->radius;
+		float xDif=(this->position.x-obSphere->position.x);
+		float yDif=(this->position.y-obSphere->position.y);
+		float zDif=(this->position.z-obSphere->position.z);
 		suma=suma*suma;
-		double distance=xDif*xDif+zDif*zDif+yDif*yDif;
+		float distance=xDif*xDif+zDif*zDif+yDif*yDif;
 		if (distance>=suma){return 0;}
 		else {
-			double sqrtV=sqrt(distance);
+			float sqrtV=sqrt(distance);
 			this->peneDist=(this->radius+obSphere->radius)-sqrtV;
 			this->peneDist=this->peneDist/(this->getMass()+obSphere->getMass())*obSphere->getMass();
 			obSphere->peneDist=(this->radius+obSphere->radius)-sqrtV;
@@ -87,9 +85,9 @@ int PhysicSphere::collision(PhysicObject *ob){
 	PhysicGround* obGround = dynamic_cast<PhysicGround*>(ob);//tu poprawic ify
 	if(obGround!=0) {//zrobic tak zeby dzilac na trojkatach a nie na kwadratach zobaczyc czy to cos da
 		//  if(this->mass==0){return 0;}
-		double x_pos=this->position.x/obGround->fizSize+0.5;
-		double z_pos=this->position.z/obGround->fizSize+0.5;
-		double height;
+		float x_pos=this->position.x/obGround->fizSize+0.5;
+		float z_pos=this->position.z/obGround->fizSize+0.5;
+		float height;
 
 		//  x_pos+=obGround->fizSize/2;//tu jedno dzielenie jesli bedzie kwadrat
 		//  z_pos+=obGround->fizSize/2;
@@ -99,10 +97,10 @@ int PhysicSphere::collision(PhysicObject *ob){
 		z_pos*=obGround->nSize-1;
 
 		//   std::cout<<x_pos<< "xxx"<<z_pos<<std::endl;
-		double x_pos_b=x_pos-((int)x_pos);
-		double x_pos_a=1-x_pos_b;
-		double z_pos_b=z_pos-((int)z_pos);
-		double z_pos_a=1-z_pos_b;
+		float x_pos_b=x_pos-((int)x_pos);
+		float x_pos_a=1-x_pos_b;
+		float z_pos_b=z_pos-((int)z_pos);
+		float z_pos_a=1-z_pos_b;
 
 		height= obGround->getHeight((int)x_pos,(int)z_pos)*x_pos_a*z_pos_a + obGround->getHeight((int)x_pos+1,(int)z_pos)*x_pos_b*z_pos_a +
 			obGround->getHeight((int)x_pos,(int)z_pos+1)*x_pos_a*z_pos_b+ obGround->getHeight((int)x_pos+1,(int)z_pos+1)*x_pos_b*z_pos_b;
@@ -116,12 +114,12 @@ int PhysicSphere::collision(PhysicObject *ob){
 
 	PhysicBox* obBox = dynamic_cast<PhysicBox*>(ob);
 	if(obBox!=0) {
-		//double suma=this->radius;
+		//float suma=this->radius;
 	}
 	return 0;
 }
 
-PhysicWorld::PhysicWorld(double _gravitation,double _maxDokladnosc){
+PhysicWorld::PhysicWorld(float _gravitation,float _maxDokladnosc){
 	maxDokladnosc=_maxDokladnosc;
 	gravitation=_gravitation;
 }
@@ -130,7 +128,7 @@ PhysicWorld::PhysicWorld(){
 	gravitation=9.78;
 }
 
-void PhysicWorld::move(double timeDif){
+void PhysicWorld::move(float timeDif){
 	for(int i=0;i<obiekty.size();i++){
 		//       obiekty[i]->prevPosition=obiekty[i]->position;
 		obiekty[i]->applyLinearForce(obiekty[i]->grav*obiekty[i]->getMass());
@@ -140,16 +138,16 @@ void PhysicWorld::move(double timeDif){
 
 PhysicGround::PhysicGround(int n,int rozm):PhysicObject(0,0,0,0){
 	for(int i=0;i<n;i++){
-		mapHeigth.push_back(std::vector<double>(n, 0));
+		mapHeigth.push_back(std::vector<float>(n, 0));
 		nSize=n;
 		fizSize=rozm;
 	}
 }
 
-double PhysicGround::getHeight(double x,double z){
-	double x_pos=x/fizSize+0.5;
-	double z_pos=z/fizSize+0.5;
-	double height;
+float PhysicGround::getHeight(float x,float z){
+	float x_pos=x/fizSize+0.5;
+	float z_pos=z/fizSize+0.5;
+	float height;
 
 	//x_pos+=this->fizSize/2;//tu jedno dzielenie jesli bedzie kwadrat
 	//  z_pos+=this->fizSize/2;
@@ -158,22 +156,22 @@ double PhysicGround::getHeight(double x,double z){
 	// z_pos/=this->fizSize;
 	z_pos*=this->nSize-1;
 	//   std::cout<<x_pos<< "xxx"<<z_pos<<std::endl;
-	double x_pos_b=x_pos-((int)x_pos);
-	double x_pos_a=1-x_pos_b;
-	double z_pos_b=z_pos-((int)z_pos);
-	double z_pos_a=1-z_pos_b;
+	float x_pos_b=x_pos-((int)x_pos);
+	float x_pos_a=1-x_pos_b;
+	float z_pos_b=z_pos-((int)z_pos);
+	float z_pos_a=1-z_pos_b;
 
 	height= this->getHeight((int)x_pos,(int)z_pos)*x_pos_a*z_pos_a + this->getHeight((int)x_pos+1,(int)z_pos)*x_pos_b*z_pos_a +
 		this->getHeight((int)x_pos,(int)z_pos+1)*x_pos_a*z_pos_b+ this->getHeight((int)x_pos+1,(int)z_pos+1)*x_pos_b*z_pos_b;
 	return height;
 }
 
-double PhysicGround::getHeight(int x,int y){
+float PhysicGround::getHeight(int x,int y){
 	if((x<0)||(y<0)||(x>=mapHeigth.size())||(y>=mapHeigth.at(0).size())){return 0;}
 	return mapHeigth.at(x).at(y);
 }
 
-int PhysicWorld::collision(double timeDif){//kolizje liczyc tylko dla obiektów poruszajacych sie z reszta obiektów
+int PhysicWorld::collision(float timeDif){//kolizje liczyc tylko dla obiektów poruszajacych sie z reszta obiektów
 	int typeCollision;
 	Vector vecTemp;
 	for(int i=0;i<obiekty.size()-1;i++){
@@ -265,7 +263,7 @@ void PhysicObject::applyLinearForce (Vector  rkForce)
 }
 
 /* Przykładamy do obiektu moment */
-void PhysicObject::applyTorque (double fTorque)
+void PhysicObject::applyTorque (float fTorque)
 {
 	totalTorque =totalTorque+ fTorque;
 }
@@ -294,7 +292,7 @@ void PhysicObject::applyResist()
 {
 	//if (mass!=0){
 	Vector resistVector;
-	double resistLength=linearVelocity.length()*linearVelocity.length()+linearVelocity.length();
+	float resistLength=linearVelocity.length()*linearVelocity.length()+linearVelocity.length();
 
 	// std::cout<<"---------"<<linearVelocity.horizLength()<<std::endl;
 	resistVector = linearVelocity;
@@ -306,7 +304,7 @@ void PhysicObject::applyResist()
 }
 
 /* Przykładamy do obiektu siłę tarcia */
-void PhysicObject::applyFriction (double fGravity)
+void PhysicObject::applyFriction (float fGravity)
 {
 
 	/* Jeśli prędkość bardzo mała, używamy tarcia statycznego, w przeciwnym srazie dynamicznego */
@@ -335,7 +333,7 @@ void PhysicObject::applyFriction (double fGravity)
 /* Obsługa zderzenia dwóch obiektów */
 void PhysicObject::handleCollision (PhysicObject  *rkOtherEntity,Vector rkCollisionNormal)
 {
-	double fImpulse;
+	float fImpulse;
 	Vector kRelativeVelocity;
 	/* Normalizacja wektora kolizji */
 	rkCollisionNormal.normalize ();
@@ -343,7 +341,7 @@ void PhysicObject::handleCollision (PhysicObject  *rkOtherEntity,Vector rkCollis
 	kRelativeVelocity = (linearVelocity -rkOtherEntity->getLinearVelocity());
 	kRelativeVelocity =kRelativeVelocity* (-1 - restitution*rkOtherEntity->restitution);
 	/* Suma odwrotności mas */
-	double fInverseMassSum= (1 / this->getMass()) + (1 / rkOtherEntity->getMass ());
+	float fInverseMassSum= (1 / this->getMass()) + (1 / rkOtherEntity->getMass ());
 	/* Obliczenie impulsu */
 	fImpulse = (kRelativeVelocity.dotProduct (rkCollisionNormal)) /rkCollisionNormal.dotProduct (rkCollisionNormal * fInverseMassSum);
 	/* Prędkość obiektu */
@@ -358,7 +356,7 @@ void PhysicObject::handleCollision (PhysicObject  *rkOtherEntity,Vector rkCollis
 }
 
 /* Symulacja obiektu */
-void PhysicObject::simulate (double fStep)
+void PhysicObject::simulate (float fStep)
 {
 	/* Całkowanie Eulera */
 	if (this->mass!=0){
@@ -415,7 +413,7 @@ void PhysicObject::setPosition (Vector  rkPosition)
 	position = rkPosition;
 }
 
-void PhysicObject::setOrientation (double fOrientation)
+void PhysicObject::setOrientation (float fOrientation)
 {
 	orientation = fOrientation;
 }
@@ -425,12 +423,12 @@ void PhysicObject::setLinearVelocity (Vector rkLinearVelocity)
 	linearVelocity = rkLinearVelocity;
 }
 
-void PhysicObject::setAngularVelocity (double fAngularVelocity)
+void PhysicObject::setAngularVelocity (float fAngularVelocity)
 {
 	angularVelocity = fAngularVelocity;
 }
 
-void PhysicObject::setMass (double fMass)
+void PhysicObject::setMass (float fMass)
 {
 	mass = fMass;
 }
@@ -440,27 +438,27 @@ void PhysicObject::setCenterOfMass (Vector & rkCenterOfMass)
 	centerOfMass = rkCenterOfMass;
 }
 
-void PhysicObject::setInertia (double fInertia)
+void PhysicObject::setInertia (float fInertia)
 {
 	inertia = fInertia;
 }
 
-void PhysicObject::setStaticFriction (double fStaticFriction)
+void PhysicObject::setStaticFriction (float fStaticFriction)
 {
 	staticFriction = fStaticFriction;
 }
 
-void PhysicObject::setKineticFriction (double fKineticFriction)
+void PhysicObject::setKineticFriction (float fKineticFriction)
 {
 	kineticFriction = fKineticFriction;
 }
 
-void PhysicObject::setCoefficientOfRestitution (double fCoefficientOfRestitution)
+void PhysicObject::setCoefficientOfRestitution (float fCoefficientOfRestitution)
 {
 	restitution = fCoefficientOfRestitution;
 }
 
-double PhysicObject::getOrientation (void)
+float PhysicObject::getOrientation (void)
 {
 	return orientation;
 }
@@ -470,12 +468,12 @@ Vector PhysicObject::getLinearVelocity (void)
 	return linearVelocity;
 }
 
-double PhysicObject::getAngularVelocity (void)
+float PhysicObject::getAngularVelocity (void)
 {
 	return angularVelocity;
 }
 
-double PhysicObject::getMass (void)
+float PhysicObject::getMass (void)
 {
 	if(mass==0){return 99999999999;}
 	return mass;
@@ -486,22 +484,22 @@ Vector PhysicObject::getCenterOfMass (void)
 	return centerOfMass;
 }
 
-double PhysicObject::getInertia (void)
+float PhysicObject::getInertia (void)
 {
 	return inertia;
 }
 
-double PhysicObject::getStaticFriction (void)
+float PhysicObject::getStaticFriction (void)
 {
 	return staticFriction;
 }
 
-double PhysicObject::getKineticFriction (void)
+float PhysicObject::getKineticFriction (void)
 {
 	return kineticFriction;
 }
 
-double PhysicObject::getCoefficientOfRestitution (void)
+float PhysicObject::getCoefficientOfRestitution (void)
 {
 	return restitution;
 }

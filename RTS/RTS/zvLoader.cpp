@@ -1,4 +1,3 @@
-
 #include <cstdlib>
 #include <fstream>
 
@@ -23,9 +22,7 @@ GUIMainLoader::GUIMainLoader(std::string _path,MainGUI *_mainGUI){
 ObjectMainLoader::ObjectMainLoader(std::string _path){
 	path=_path;
 }
-PlayerLoader::PlayerLoader(std::string _path){
-	path=_path;
-}
+
 GUILoader::GUILoader(std::string _path,ElementGUI *_elemGUI){
 	path=_path;
 	elemGUI=_elemGUI;
@@ -64,30 +61,7 @@ int SettLoader::loadStartSetting(){
 	return -1;}
 	return 0;
 }
-int PlayerLoader::loadPlayer(){
-	std::fstream plik;
-	plik.open( path.c_str(), std::ios::in );
-	if( plik.good() )
-	{
-		std::string dane;
-		std::string key;
-		std::string value;
-		//  std::string sNull;
-		std::cout << "> Uzyskano dostep do pliku parametrami gracza!" << std::endl;
-		Console::writeTo("> Uzyskano dostep do pliku parametrami gracza!" );
-		while (!plik.eof()){
-			getline( plik, dane );
-			if (dane[0]=='#'){continue;}
-			key=this->getKey(dane);
-			value=this->getValue(dane);
-			this->setKey(key,value);
-		}
-		plik.close();
-	}else{ std::cout << "error> problem z plikiem paramaetrów gracza!" << std::endl;
-	Console::writeTo("error> problem z plikiem paramaetrów gracza! (" + path +")");
-	return -1;}
-	return 0;
-}
+
 std::string Loader::getKey(std::string dane){
 	std::string key;
 	for(int i=0;i<dane.length();i++){
@@ -112,7 +86,7 @@ std::string Loader::getValue(std::string dane){
 	}
 	return value;
 }
-double Loader::getKomaValue(std::string dane,int num){
+float Loader::getKomaValue(std::string dane,int num){
 	std::string value;
 	int i=0;
 	int numFound=1;
@@ -183,12 +157,12 @@ void GUIMainLoader::setKey(std::string key,std::string value){
 		}
 
 		for(int i=0;i<elemGUI->cords2dTx.size();i++){
-			double sizeX=getKomaValue(elemGUI->cords2dTx.at(i)->rozX,Game::settStart->getHudSizeI());
-			double sizeY=getKomaValue(elemGUI->cords2dTx.at(i)->rozY,Game::settStart->getHudSizeI());
-			double cx;
-			double cy;
-			double vx;
-			double vy;
+			float sizeX=getKomaValue(elemGUI->cords2dTx.at(i)->rozX,Game::settStart->getHudSizeI());
+			float sizeY=getKomaValue(elemGUI->cords2dTx.at(i)->rozY,Game::settStart->getHudSizeI());
+			float cx;
+			float cy;
+			float vx;
+			float vy;
 			int aX=-1;
 			int aY=-1;
 			if (elemGUI->cords2dTx.at(i)->x!="!"){//tu dac jeszcze zeby bralo z koma walu a nie pierwsze
@@ -433,35 +407,7 @@ void SettLoader::setKey(std::string key,std::string value){
 	Console::writeTo("warning> nieznany klucz!" + ' (' + key + ')');}
 
 }
-void PlayerLoader::setKey(std::string key,std::string value){
-	if (key=="position"){
-		Game::player->bodyFiz->position=Vector(getKomaValue(value,1),getKomaValue(value,2),getKomaValue(value,3));}
-	else if (key=="rotation"){Game::player->bodyFiz->rotation=Vector(getKomaValue(value,1),getKomaValue(value,2),getKomaValue(value,3));}
-	else if (key=="fizObject"){
-		if (true){PhysicSphere* obSphere = dynamic_cast<PhysicSphere*>(Game::player->bodyFiz);
-		obSphere->radius=getKomaValue(value,2);}
-	}
-	else if (key=="mesh"){Game::player->meshPath=value;}
-	else if (key=="texture"){Game::player->texturePath=value;}
-	else if (key=="movementForce"){Game::player->bodyFiz->maxSpeed=atof(value.c_str());;}
-	else if (key=="jumpForce"){Game::player->bodyFiz->jumpForce=atof(value.c_str());}
-	else if (key=="mass"){Game::player->bodyFiz->mass=atof(value.c_str());}
-	else if (key=="gravitation"){Game::player->bodyFiz->grav=Vector(getKomaValue(value,1),getKomaValue(value,2),getKomaValue(value,3));}
-	else if (key=="inertia"){Game::player->bodyFiz->inertia=atof(value.c_str());}
-	else if (key=="staticFriction"){Game::player->bodyFiz->staticFriction=atof(value.c_str());}
-	else if (key=="kineticFriction"){Game::player->bodyFiz->kineticFriction=atof(value.c_str());}
-	else if (key=="restitution"){Game::player->bodyFiz->restitution=atof(value.c_str());}
-	else if (key=="HP"){Game::player->HP=atof(value.c_str());}
-	else if (key=="maxLoad"){Game::player->maxLoad=atof(value.c_str());}
-	else if (key=="rAction"){Game::player->rAction=atof(value.c_str());}
-	else if (key=="rAttack"){Game::player->rAttack=atof(value.c_str());}
-	else if (key=="atak"){Game::player->atak=atof(value.c_str());}
-	else if (key=="defense"){Game::player->defense=atof(value.c_str());}
-	else if (key=="strength"){Game::player->strength=atof(value.c_str());}
-	else if (key=="regeneration"){Game::player->regeneration=atof(value.c_str());}
-	else if (key=="turnForce"){Game::player->bodyFiz->turnForce=Vector(getKomaValue(value,1),getKomaValue(value,2),getKomaValue(value,3));}
 
-}
 int ObjectMainLoader::load(){
 	std::fstream plik;
 	plik.open( path.c_str(), std::ios::in );
@@ -534,7 +480,7 @@ void MapLoader::setKey(std::string key,std::string value){
 
 }
 
-void updateLoadBar(MainGUI * mainGUI,video::IVideoDriver * ivideo,double*loadBar,double var){
+void updateLoadBar(MainGUI * mainGUI,video::IVideoDriver * ivideo,float*loadBar,float var){
 	ivideo->beginScene( true, true, video::SColor( 255, 0, 10, 200 ) );
 	*loadBar=*loadBar+var;
 	mainGUI->drawGUI();

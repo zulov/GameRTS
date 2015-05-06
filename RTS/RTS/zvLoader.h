@@ -14,7 +14,7 @@ using namespace video;
 //funkcje loadujace zmienic na ta sama dziedziczona bo nie ma nraczej roznicy
 class Control;
 void __cdecl loadThread( void * Args );
-void updateLoadBar(MainGUI * mainGUI,video::IVideoDriver * ivideo,double*loadBar,double var);
+void updateLoadBar(MainGUI * mainGUI,video::IVideoDriver * ivideo,float*loadBar,float var);
 std::string replaceChar(std::string napis,char ch,char repCh);
 class Loader{
     public:
@@ -24,7 +24,7 @@ std::string path;
 std::string getKey(std::string dane);
 virtual void setKey(std::string key,std::string value);
 std::string getValue(std::string dane);
-double getKomaValue(std::string dane,int num);
+float getKomaValue(std::string dane,int num);
 virtual int load();
 Loader();
 
@@ -42,13 +42,7 @@ ObjectLoader(std::string _path);
 virtual int load();
 virtual void setKey(std::string key,std::string value);
 };
-class PlayerLoader:public Loader{
-public:
-//Player * player;
-PlayerLoader(std::string _path);
-int loadPlayer();
-virtual void setKey(std::string key,std::string value);
-};
+
 class GUILoader:public Loader{
 public:
 int amount;
