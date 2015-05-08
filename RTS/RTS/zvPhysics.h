@@ -41,6 +41,7 @@ class PhysicObject{
     PhysicObject();
     ~PhysicObject();
     PhysicObject(float _masa,float _x,float _y,float _z);
+	 PhysicObject(float _masa,Vector _position);
     Vector getRotation();
     Vector getPosition();
     void setRotation(Vector rot);
@@ -79,7 +80,7 @@ class PhysicSphere :public PhysicObject{
     public:
     float radius;
     PhysicSphere();
-    PhysicSphere(float _masa,float _x,float _y,float _z,float _radius);
+    PhysicSphere(float _masa,Vector _position,float _radius);
     virtual int collision(PhysicObject *ob);
 };
 class PhysicBox :public PhysicObject{
@@ -98,6 +99,7 @@ public:
     PhysicGround(int n,int rozm);
     float getHeight(int x,int y);
     float getHeight(float x,float z);
+	  virtual int collision(PhysicObject *ob);
 };
 class PhysicWorld{
 public:

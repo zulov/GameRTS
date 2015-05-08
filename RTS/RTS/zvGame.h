@@ -10,6 +10,8 @@
 #include "zvObject.h"
 #include "zvCamera.h"
 #include "zvEnums.h"
+#include "zvUnits.h"
+
 #include <irrlicht.h>
 
 using namespace irr;
@@ -50,8 +52,7 @@ public:
 	static void setFizWorld(PhysicWorld * _fizWorld);
 	static void setSettings(Settings * _settStart);
 	static void setSettLoader(SettLoader * _settLoader);
-
-
+	static void createUnit(Vector position);
 	static void prepareIrrlicht();
 	static void prepareZv();
 	static Settings * loadSettings();
@@ -69,7 +70,7 @@ public:
 
 void make_scena(ISceneManager * menage, IVideoDriver * ivideo, PhysicWorld*fizWorld, ListObject* allObiekt);
 
-void show_fps(int lastFPS);
+void show_fps();
 
 bool collision(ISceneNode* one, ISceneNode* two);
 

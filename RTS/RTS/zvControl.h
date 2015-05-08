@@ -2,6 +2,7 @@
 #define ZVSTEROWANIE_H
 #include "zvGUI.h"
 #include "zvCamera.h"
+#include "zvGame.h"
 
 using namespace irr;
 using namespace core;

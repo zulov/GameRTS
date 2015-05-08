@@ -47,7 +47,6 @@ void Game::setSettLoader(SettLoader * _settLoader){
 	settLoader=_settLoader;
 }
 
-
 void Game::prepareIrrlicht(){
 	klawiatura=new Control();
 	device = createDevice(EDT_OPENGL,dimension2d<u32>(settStart->weidthRes, settStart->heightRes ),settStart->colorDepth, settStart->fullScreen, settStart->stencil, settStart->vSync, Game::klawiatura );
@@ -124,23 +123,39 @@ void Game::loadMap(std::string path){
 
 }
 
+void Game::createUnit(Vector position){
+	Unit * unit=new Unit();
+	PhysicSphere * body=new PhysicSphere(50,position,1);
+	unit->setPhysicBody(body);
+	body->setMass(50);
+	body->setPosition(position);
+	body->setStaticFriction(0.5f);
+	body->setKineticFriction(0.2f);
+	body->setCoefficientOfRestitution(0.01f);
+	Game::fizWorld->obiekty.push_back(body);
 
+	IAnimatedMesh * mesh = Game::menage->getMesh( "models/unit/infantry.obj" );
+	IMeshSceneNode* meshBody=Game::menage->addOctreeSceneNode( mesh,0,-1,512);
 
+	meshBody->setPosition( core::vector3df( position.x,position.y, position.z ) );
+	meshBody->setMaterialFlag( video::EMF_LIGHTING, true );
+	meshBody->setMaterialTexture( 0, Game::ivideo->getTexture( "textures/red.png" ) );
+	meshBody->setScale(vector3df(1,1,1));
 
+	unit->setMesh(meshBody);
+	Game::allObiekt->listObiekt.push_back(unit);
 
+	Game::fizWorld->obiekty.push_back(body);
+}
 
-/////////////////////
-void show_fps(int lastFPS){
+void show_fps(){
 	if (Game::device->isWindowActive())
 	{
 		int fps = Game::ivideo->getFPS();
-		if (lastFPS != fps)
-		{
-			core::stringw str = L"RTS by Tomasz Gajda 2013-2014 ||  FPS:";
-			str += fps;
-			Game::device->setWindowCaption(str.c_str());
-			lastFPS = fps;
-		}
+
+		core::stringw str = L"RTS by Tomasz Gajda 2013-2014 ||  FPS:";
+		str += fps;
+		Game::device->setWindowCaption(str.c_str());
 	}
 	else{
 		Game::device->yield();
@@ -155,7 +170,7 @@ void make_scena(scene::ISceneManager * menage,video::IVideoDriver * ivideo,Physi
 	///
 	Object *ground=new Object();
 	Vector pos=Vector(0,0,0);
-	ground->setPhysicBody(new PhysicGround(81,64000));
+	ground->setPhysicBody(new PhysicGround(5,2048));
 	ground->getPhysicBody()->setMass(0);
 	ground->getPhysicBody()->setPosition(pos);
 	ground->getPhysicBody()->setStaticFriction(0.5f);
@@ -165,7 +180,7 @@ void make_scena(scene::ISceneManager * menage,video::IVideoDriver * ivideo,Physi
 	//fizWorld->obiekty.push_back(ground->getPhysicBody());
 	PhysicGround* obGround = dynamic_cast<PhysicGround*>(ground->getPhysicBody());
 	std::fstream plik;
-	plik.open( "models/ground_7.obj", std::ios::in );
+	plik.open( "models/testMapFlat.obj", std::ios::in );
 
 	if( plik.good()&&obGround )
 	{
@@ -189,7 +204,7 @@ void make_scena(scene::ISceneManager * menage,video::IVideoDriver * ivideo,Physi
 		plik.close();
 	}else{ std::cout << "Dostep do pliku zostal zabroniony!" << std::endl;}
 
-	IAnimatedMesh * mesh = menage->getMesh( "models/ground_7.obj" );
+	IAnimatedMesh * mesh = menage->getMesh( "models/testMapFlat.obj" );
 	ground->setMesh(menage->addOctreeSceneNode( mesh,0,-1,512));
 	//  ground->getMesh()->setScale( core::vector3df(  1,  1,  1) );
 	ground->getMesh()->setPosition( core::vector3df( 0, 0, 0 ) );
@@ -199,26 +214,6 @@ void make_scena(scene::ISceneManager * menage,video::IVideoDriver * ivideo,Physi
 	allObiekt->listObiekt.push_back(ground);
 	///////
 
-	Object * sea=new Object();
-	pos=Vector(0,75,0);
-	sea->setPhysicBody(new PhysicGround(2,256000));
-	sea->getPhysicBody()->setMass(0);
-	sea->getPhysicBody()->setPosition(pos);
-	sea->getPhysicBody()->setStaticFriction(0.5f);
-	sea->getPhysicBody()->setKineticFriction(0.2f);
-	sea->getPhysicBody()->setCoefficientOfRestitution(0.01f);
-	fizWorld->obiekty.push_back(sea->getPhysicBody());
-	IAnimatedMesh * meshSea = menage->getMesh( "models/sea_3.obj" );
-	sea->setMesh(menage->addOctreeSceneNode( meshSea,0,-1,512));
-	// scene::ISceneNode* node =menage->addWaterSurfaceSceneNode(meshSea, 3.0f, 300.0f, 30.0f);
-	sea->getMesh()->setPosition( core::vector3df( pos.x,pos.y, pos.z ) );
-	sea->getMesh()->setMaterialFlag( video::EMF_LIGHTING, true );
-	sea->getMesh()->setMaterialTexture( 0, ivideo->getTexture( "textures/sea_1.jpg" ) );
-	// sea->getMesh()->setMaterialType(video::EMT_REFLECTION_2_LAYER);
-	// sea->getMesh()->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-	sea->getMesh()->addShadowVolumeSceneNode();
-	allObiekt->listObiekt.push_back(sea);
-	//////
 	fizWorld->obiekty.push_back(ground->getPhysicBody());
 	////
 	ISceneNode* skyBox = menage->addSkyBoxSceneNode(

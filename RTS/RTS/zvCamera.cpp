@@ -8,7 +8,15 @@ Camera * CameraManager::addCamera(Camera * newCamera){
 }
 
 Camera * CameraManager::addCamera(int mode){
-	Camera * newCamera= new Camera(mode);
+	Camera * newCamera;
+	if(mode==RTS_CAMERA){
+		newCamera= new RTSCamera(mode);
+	}else{
+		newCamera= new Camera(mode);
+	}
+	newCamera->setMaxHeight(200);
+	newCamera->setMinHeight(2);
+
 	newCamera->setCameraNode(menage->addCameraSceneNode());
 	newCamera->getCameraNode()->setFarValue(64000);
 	newCamera->getCameraNode()->setPosition(vector3df(0,1000,0));
@@ -43,6 +51,9 @@ Camera::Camera(){
 Camera::Camera(int mode){
 	cameraMode=mode;
 }
+RTSCamera::RTSCamera(int mode):Camera(mode){
+
+}
 
 void Camera::setCameraNode(ICameraSceneNode * _cameraNode){
 	cameraNode=_cameraNode;
@@ -60,16 +71,37 @@ int Camera::getCameraMode(){
 	return cameraMode;
 }
 
-void CameraManager::moveActiveCamera(vector3df v){
-	if(activeCamera->getCameraMode()==RTS_CAMERA){
-		vector3df camPos=activeCamera->getCameraNode()->getPosition();
-		vector3df camTar=activeCamera->getCameraNode()->getTarget();
-		camPos+=v;
-		camTar+=v;
-		camTar.Y=0;
-		camTar.Z=camPos.Z+(2000000/(camPos.Y))+5000;
-		camTar.X=camPos.X-(1000000/(camPos.Y))+500;
-		activeCamera->getCameraNode()->setPosition(camPos);
-		activeCamera->getCameraNode()->setTarget(camTar);
+void Camera::move(Vector move){
+
+}
+
+void RTSCamera::move(Vector move){
+	vector3df camPos=getCameraNode()->getPosition();
+	vector3df camTar=getCameraNode()->getTarget();
+	camPos.X+=move.x;
+	camPos.Z+=move.z;
+	camPos.Y+=move.y*(camPos.Y/maxHeight);
+	if(camPos.Y<minHeight){
+		camPos.Y=minHeight;
+	}else if (camPos.Y>maxHeight){
+		camPos.Y=maxHeight;
 	}
+
+	camTar.Y=minHeight-1;//+od wyokosci w danym miejscu mapy  powinno byc
+	camTar.X=camPos.X;
+	camTar.Z=camPos.Z+50+(maxHeight/camPos.Y)*2;//uwzglednic minHeight
+	camTar.X=camPos.X-(maxHeight/camPos.Y)/2;//uwzglednic minHeight
+	getCameraNode()->setPosition(camPos);
+	getCameraNode()->setTarget(camTar);
+}
+
+void CameraManager::moveActiveCamera(Vector move){
+	getActiveCamera()->move(move);
+}
+
+void Camera::setMaxHeight(float _maxHeight){
+	maxHeight=_maxHeight;
+}
+void Camera::setMinHeight(float _minHeight){
+	minHeight=_minHeight;
 }

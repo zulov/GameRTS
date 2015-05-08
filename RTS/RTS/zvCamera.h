@@ -3,14 +3,30 @@
 #include "zvGlobal.h"
 
 class Camera{
+protected:
     ICameraSceneNode * cameraNode;
     int cameraMode;
+	float maxHeight;
+	float minHeight;
 public:
 	Camera();
 	Camera(int mode);
 	void setCameraNode(ICameraSceneNode * _cameraNode);
 	ICameraSceneNode * getCameraNode();
 	int getCameraMode();
+	virtual void move(Vector move);
+	void setMaxHeight(float _maxHeight);
+	void setMinHeight(float _minHeight);
+
+};
+
+class RTSCamera:public Camera{
+private:
+	
+public:
+	RTSCamera();
+	RTSCamera(int mode);
+	virtual void move(Vector move);
 };
 
 class CameraManager{
@@ -24,7 +40,7 @@ public:
 	Camera * getActiveCamera();
     void deleteCamera(Camera * camToDelete);
     void deleteCamera(int n);
-	void moveActiveCamera(vector3df v);
+	void moveActiveCamera(Vector v);
     CameraManager(ISceneManager * _menage);
 };
 

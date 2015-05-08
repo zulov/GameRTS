@@ -3,7 +3,6 @@
 
 
 PhysicObject::PhysicObject(float _masa,float _x,float _y,float _z){
-	masa=_masa;
 	mass=_masa;
 	position=Vector(_x,_y,_z);
 	grav=Vector(0,-9.78,0);
@@ -22,9 +21,29 @@ PhysicObject::PhysicObject(float _masa,float _x,float _y,float _z){
 	linearVelocity             = Vector (0, 0,0);
 	totalForce                 = Vector (0, 0,0);
 	frictionForce              = Vector (0, 0,0);
-	sprintFactor=1.66;
 }
-PhysicSphere::PhysicSphere(float _masa,float _x,float _y,float _z,float _radius):PhysicObject(_masa,_x,_y,_z){
+PhysicObject::PhysicObject(float _masa,Vector _position){
+	mass=_masa;
+	position=_position;
+	grav=Vector(0,-9.78,0);
+	peneDist=0;
+	inertia                    = 0.1;
+	staticFriction  = 0;
+	kineticFriction = 0;
+	surface =1;
+	angularVelocity            = 0;
+	orientation                = 0;
+	totalTorque                = 0;
+	totalTorqueVector          = Vector(0,0,0);
+	totalImpulse               = 0;
+	centerOfMass               = Vector (0, 0,0);
+	position                   = Vector (0, 0,0);
+	linearVelocity             = Vector (0, 0,0);
+	totalForce                 = Vector (0, 0,0);
+	frictionForce              = Vector (0, 0,0);
+}
+
+PhysicSphere::PhysicSphere(float _masa,Vector _position,float _radius):PhysicObject(_masa,_position){
 	radius=_radius;
 }
 PhysicSphere::PhysicSphere(void){
@@ -32,6 +51,11 @@ PhysicSphere::PhysicSphere(void){
 }
 int PhysicObject::collision(PhysicObject *ob){
 	//std::cout<<"kolzja virtualna prawie ze"<<std::endl;
+	return false;
+}
+
+int PhysicGround::collision(PhysicObject *ob){
+	ob->collision(this);
 	return false;
 }
 
@@ -44,21 +68,6 @@ Vector PhysicObject::getPosition(){
 
 void PhysicObject::setRotation(Vector rot){
 	rotation=rot;
-}
-
-Vector PhysicObject::move(float timeDif){
-	if(this->masa!=0){
-		// this->prevPosition=this->position;
-		//    Vector accelStep=this->acceleration*(timeDif*this->masa);
-		//    Vector gravStep=this->grav*(timeDif*this->masa);
-		//    accelStep=accelStep+gravStep;
-		//    Vector tempVel=this->velocity+accelStep;
-		//    Vector tempVelMovement=tempVel+this->movement;
-		//    Vector moveStep=tempVelMovement*timeDif;
-		//    this->position=this->position+moveStep;
-		//return tempPosition;
-	}
-	return this->position;
 }
 
 int PhysicSphere::collision(PhysicObject *ob){
@@ -186,25 +195,12 @@ int PhysicWorld::collision(float timeDif){//kolizje liczyc tylko dla obiektów p
 					///
 					vecTemp=obiekty[i]->position-obiekty[j]->position;
 					vecTemp.normalize();
-					//vecTemp=vecTemp*obiekty[i]->peneDist;
+
 					obiekty[i]->position+=vecTemp*obiekty[i]->peneDist;
 
-					// vecTemp=obiekty[j]->position-obiekty[i]->position;
-					//  vecTemp.normalize();
-					// vecTemp=vecTemp*obiekty[j]->peneDist;
 					obiekty[j]->position+=-vecTemp*obiekty[j]->peneDist;
 					///
 					obiekty[i]->handleCollision(obiekty[j],(obiekty[i]->getPosition()-obiekty[j]->getPosition()));
-
-					//            vecTemp=obiekty[i]->linearVelocity;
-					//            vecTemp.normalize();
-					//            vecTemp=vecTemp*obiekty[i]->peneDist;
-					//            obiekty[i]->position+=vecTemp;
-					//
-					//            vecTemp=obiekty[j]->linearVelocity;
-					//            vecTemp.normalize();
-					//            vecTemp=vecTemp*obiekty[j]->peneDist;
-					//            obiekty[j]->position+=vecTemp;
 
 				}else{
 					obiekty[i]->handleCollision(obiekty[j],Vector(0,0.1,0));//dokladnieszja normalna dac
@@ -278,12 +274,6 @@ void PhysicObject::applyForce (Vector & rkForce,Vector & rkPointOfContact)
 {
 	if (mass!=0){
 		totalForce = totalForce+ rkForce;
-		Vector rkArm;
-		/* Obliczamy długość ramienia */
-		rkArm = rkPointOfContact - centerOfMass;
-		//totalTorque = totalTorque+rkArm.perpDotProduct (rkForce);
-		totalTorque = totalTorque+rkArm.perpDotProduct (rkForce);
-		//    totalTorqueVector = totalTorqueVector+rkArm.perpDotProduct (rkForce);
 	}
 }
 
@@ -335,15 +325,20 @@ void PhysicObject::handleCollision (PhysicObject  *rkOtherEntity,Vector rkCollis
 {
 	float fImpulse;
 	Vector kRelativeVelocity;
+	
 	/* Normalizacja wektora kolizji */
-	rkCollisionNormal.normalize ();
+ 	rkCollisionNormal.normalize ();
 	/* Ustalenie wzglednej prędkości */
 	kRelativeVelocity = (linearVelocity -rkOtherEntity->getLinearVelocity());
 	kRelativeVelocity =kRelativeVelocity* (-1 - restitution*rkOtherEntity->restitution);
 	/* Suma odwrotności mas */
 	float fInverseMassSum= (1 / this->getMass()) + (1 / rkOtherEntity->getMass ());
 	/* Obliczenie impulsu */
-	fImpulse = (kRelativeVelocity.dotProduct (rkCollisionNormal)) /rkCollisionNormal.dotProduct (rkCollisionNormal * fInverseMassSum);
+	if(rkCollisionNormal.length()==0){fImpulse=0;}
+	else{
+		fImpulse = (kRelativeVelocity.dotProduct (rkCollisionNormal)) / rkCollisionNormal.dotProduct (rkCollisionNormal * fInverseMassSum);
+	}
+	
 	/* Prędkość obiektu */
 	if (mass!=0){
 		linearVelocity = linearVelocity +(rkCollisionNormal * (fImpulse / this->getMass()));

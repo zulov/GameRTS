@@ -22,6 +22,7 @@
     <ClCompile Include="zvObject.cpp" />
     <ClCompile Include="zvPhysics.cpp" />
     <ClCompile Include="zvSettings.cpp" />
+    <ClCompile Include="zvUnits.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="zvCamera.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="zvObject.h" />
     <ClInclude Include="zvPhysics.h" />
     <ClInclude Include="zvSettings.h" />
+    <ClInclude Include="zvUnits.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

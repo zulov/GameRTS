@@ -23,7 +23,7 @@ int main(){
 	Game::prepareZv();
 
 	Game::prepereCamera(RTS_CAMERA);
-
+	
 	updateLoadBar(Game::getGUI(0),Game::ivideo,&loadProgres,20.0);
 	///////////////////////
 	int lastFPS;
@@ -33,7 +33,7 @@ int main(){
 	Game::device->getCursorControl()->setVisible(false);
 	while( Game::device->run() ){
 		Game::computeTimeDiff();
-		//        show_fps(Game::device,Game::ivideo,lastFPS);
+		show_fps();
 		if(Game::klawiatura->control(Game::device,Game::getTimeDiff(),Game::allObiekt, Game::getGUI(1),Game::cameraManager)==-1){Console::saveConsole(0); return 0;}
 		//        update_alive(Game::allObiekt,Game::fizWorld);
 		Game::fizWorld->move(Game::getTimeDiff());

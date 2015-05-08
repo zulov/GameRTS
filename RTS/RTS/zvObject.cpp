@@ -10,36 +10,25 @@ Object::Object(){
 	name=std::string("");
 }
 
-Animal::Animal(){
-}
-
-Alive::Alive(){
-}
-
-
 Thing::Thing(){
 
 	name=std::string("obiekt");
 	endurace=10;//wytrzymalosc
 
 }
-std::string Object::getName(void){
-	return name;
-}
-void Animal::move(float x,float z){
-	//to mozliwe ze tylo raz trzeba
-	float distance =1;// rand() % 30;
-	float playerDistance=sqrt((x-this->getPhysicBody()->position.x)*(x-this->getPhysicBody()->position.x)+(z-this->getPhysicBody()->position.z)*(z-this->getPhysicBody()->position.z));
-	float ratioDistance=distance/playerDistance;
-}
-void  Object::move(float x,float z){
+
+Alive::Alive(){
+
 }
 
 void Alive::attack(Object * attackObiekt){
 
 }
+std::string Object::getName(void){
+	return name;
+}
 
-void Animal::attack(Object * attackObiekt){
+void  Object::move(float x,float z){
 }
 
 ObjectProperties * ListObject::getObjectById(int id){

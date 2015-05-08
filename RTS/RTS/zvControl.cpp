@@ -76,31 +76,32 @@ bool Control::OnKeyUp(irr::EKEY_CODE key){
 	return true;
 }
 
-int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allObiekt, MainGUI * mainGUI,CameraManager * cameraManager){
-	float moveFactor=150;
+int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allObiekt, 
+					 MainGUI * mainGUI,CameraManager * cameraManager){
+	float moveFactor=10*frameDeltaTime;
 	if( getWheelState()!=0 ){
-		cameraManager->moveActiveCamera(vector3df(0,-2*moveFactor*getWheelState(),0));
+		cameraManager->moveActiveCamera(Vector(0,-moveFactor*getWheelState()*20,0));
 	}
 
 	if( this->IsKeyDown( irr::KEY_KEY_W ) || this->IsKeyDown( irr::KEY_UP ) )
 	{
-		cameraManager->moveActiveCamera(vector3df(0,0,moveFactor));
+		cameraManager->moveActiveCamera(Vector(0,0,moveFactor));
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_S ) || this->IsKeyDown( irr::KEY_DOWN)  )
 	{
-		cameraManager->moveActiveCamera(vector3df(0,0,-moveFactor));
+		cameraManager->moveActiveCamera(Vector(0,0,-moveFactor));
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_A ) || this->IsKeyDown( irr::KEY_LEFT) )
 	{
-		cameraManager->moveActiveCamera(vector3df(-moveFactor,0,0));
+		cameraManager->moveActiveCamera(Vector(-moveFactor,0,0));
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_D ) || this->IsKeyDown( irr::KEY_RIGHT)  )
 	{
-		cameraManager->moveActiveCamera(vector3df(moveFactor,0,0));
+		cameraManager->moveActiveCamera(Vector(moveFactor,0,0));
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_Q ) )
 	{
-
+		
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_E ) )
 	{
@@ -116,7 +117,7 @@ int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allOb
 	}
 	if( this->IsKeyPressed( irr::KEY_SPACE ) )
 	{
-		
+		Game::createUnit(Vector(std::rand()%50,2000,std::rand()%50));
 	}
 	if( this->IsKeyPressed( irr::KEY_KEY_I) )
 	{//item
