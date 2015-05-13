@@ -140,9 +140,12 @@ int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allOb
 		//if(mainGUI->allowedType==5){mainGUI->allowedType=0;}
 		//else{mainGUI->allowedType=5;}
 	}
-	if( this->IsKeyDown( irr::KEY_F1 ) )
+	if( this->IsKeyPressed( irr::KEY_F11 ) )
 	{
-		
+		cameraManager->prevCamera();
+	}
+	else if( this->IsKeyPressed( irr::KEY_F12 ) ){
+		cameraManager->nextCamera();
 	}
 	if( this->IsMousePressed() )
 	{

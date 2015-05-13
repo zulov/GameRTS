@@ -23,6 +23,7 @@ int main(){
 	Game::prepareZv();
 
 	Game::prepereCamera(RTS_CAMERA);
+	Game::prepereCamera(RTS_CAMERA);	
 	
 	updateLoadBar(Game::getGUI(0),Game::ivideo,&loadProgres,20.0);
 	///////////////////////

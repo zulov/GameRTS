@@ -17,6 +17,7 @@ public:
 	virtual void move(Vector move);
 	void setMaxHeight(float _maxHeight);
 	void setMinHeight(float _minHeight);
+	
 
 };
 
@@ -30,9 +31,12 @@ public:
 };
 
 class CameraManager{
+private:
+	int getNumberOfActiveCamera();
     std::vector<Camera*> cameraList;
 	ISceneManager * menage;
 	Camera * activeCamera;
+	void setActiveCamera(Camera * _activeCamera);
 public:
     ICameraSceneNode * getCamera(int n);
     Camera * addCamera(Camera * newCamera);
@@ -42,6 +46,8 @@ public:
     void deleteCamera(int n);
 	void moveActiveCamera(Vector v);
     CameraManager(ISceneManager * _menage);
+	void nextCamera();
+	void prevCamera();
 };
 
 

@@ -105,3 +105,35 @@ void Camera::setMaxHeight(float _maxHeight){
 void Camera::setMinHeight(float _minHeight){
 	minHeight=_minHeight;
 }
+
+void CameraManager::nextCamera(){
+	int index=getNumberOfActiveCamera();
+	if(cameraList.size()>index+1){
+		setActiveCamera(cameraList.at(index+1));
+	}else if (cameraList.at(0)!=0){
+		setActiveCamera(cameraList.at(0));
+	}
+}
+
+void CameraManager::prevCamera(){
+	int index=getNumberOfActiveCamera();
+	if(index>0){
+		setActiveCamera(cameraList.at(index-1));
+	}else if (cameraList.at(cameraList.size()-1)!=0){
+		setActiveCamera(cameraList.at(cameraList.size()-1));
+	}
+} 
+
+int CameraManager::getNumberOfActiveCamera(){
+	for (int i=0;i<cameraList.size();i++){
+		if (cameraList.at(i)==getActiveCamera()){
+			return i;
+		}
+	}
+	return -1;
+}
+
+void CameraManager::setActiveCamera(Camera * _activeCamera){
+	activeCamera=_activeCamera;
+	menage->setActiveCamera(activeCamera->getCameraNode());
+}

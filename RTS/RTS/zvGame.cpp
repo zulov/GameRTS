@@ -52,8 +52,7 @@ void Game::prepareIrrlicht(){
 	device = createDevice(EDT_OPENGL,dimension2d<u32>(settStart->weidthRes, settStart->heightRes ),settStart->colorDepth, settStart->fullScreen, settStart->stencil, settStart->vSync, Game::klawiatura );
 	ivideo = device->getVideoDriver();
 	menage = device->getSceneManager();
-	cameraManager= new CameraManager(menage);
-	cameraManager->addCamera(RTS_CAMERA);
+
 }
 void Game::prepareZv(){
 	MainGUI * loadingGUI;
@@ -93,7 +92,8 @@ Settings * Game::loadSettings(){
 }
 
 Camera * Game::prepereCamera(int mode){
-	cameraManager=new CameraManager(menage);
+	cameraManager= new CameraManager(menage);
+	cameraManager->addCamera(mode);
 	return cameraManager->addCamera(mode);
 }
 
