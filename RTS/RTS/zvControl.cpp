@@ -77,27 +77,27 @@ bool Control::OnKeyUp(irr::EKEY_CODE key){
 }
 
 int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allObiekt, 
-					 MainGUI * mainGUI,CameraManager * cameraManager){
-	float moveFactor=10*frameDeltaTime;
+					 MainGUI * mainGUI){
+	float moveFactor=frameDeltaTime;
 	if( getWheelState()!=0 ){
-		cameraManager->moveActiveCamera(Vector(0,-moveFactor*getWheelState()*20,0));
+		Game::getCameraManager()->moveActiveCamera(Vector(0,-moveFactor*getWheelState(),0));
 	}
 
 	if( this->IsKeyDown( irr::KEY_KEY_W ) || this->IsKeyDown( irr::KEY_UP ) )
 	{
-		cameraManager->moveActiveCamera(Vector(0,0,moveFactor));
+		Game::getCameraManager()->moveActiveCamera(Vector(0,0,moveFactor));
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_S ) || this->IsKeyDown( irr::KEY_DOWN)  )
 	{
-		cameraManager->moveActiveCamera(Vector(0,0,-moveFactor));
+		Game::getCameraManager()->moveActiveCamera(Vector(0,0,-moveFactor));
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_A ) || this->IsKeyDown( irr::KEY_LEFT) )
 	{
-		cameraManager->moveActiveCamera(Vector(-moveFactor,0,0));
+		Game::getCameraManager()->moveActiveCamera(Vector(-moveFactor,0,0));
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_D ) || this->IsKeyDown( irr::KEY_RIGHT)  )
 	{
-		cameraManager->moveActiveCamera(Vector(moveFactor,0,0));
+		Game::getCameraManager()->moveActiveCamera(Vector(moveFactor,0,0));
 	}
 	if( this->IsKeyDown( irr::KEY_KEY_Q ) )
 	{
@@ -136,16 +136,16 @@ int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allOb
 		
 	}
 	else if( this->IsKeyPressed( irr::KEY_OEM_3 ) )
-	{//mapa
-		//if(mainGUI->allowedType==5){mainGUI->allowedType=0;}
-		//else{mainGUI->allowedType=5;}
+	{//console
+		if(mainGUI->allowedType==5){mainGUI->allowedType=0;}
+		else{mainGUI->allowedType=5;}
 	}
 	if( this->IsKeyPressed( irr::KEY_F11 ) )
 	{
-		cameraManager->prevCamera();
+		Game::getCameraManager()->prevCamera();
 	}
 	else if( this->IsKeyPressed( irr::KEY_F12 ) ){
-		cameraManager->nextCamera();
+		Game::getCameraManager()->nextCamera();
 	}
 	if( this->IsMousePressed() )
 	{

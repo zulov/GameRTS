@@ -1,13 +1,16 @@
 #ifndef ZVCAMERA_H
 #define ZVCAMERA_H
 #include "zvGlobal.h"
-
+#include "zvConsole.h"
 class Camera{
 protected:
     ICameraSceneNode * cameraNode;
     int cameraMode;
 	float maxHeight;
 	float minHeight;
+	float verticalSpeed;
+	float horizontalSpeed;
+	std::string name;
 public:
 	Camera();
 	Camera(int mode);
@@ -17,8 +20,12 @@ public:
 	virtual void move(Vector move);
 	void setMaxHeight(float _maxHeight);
 	void setMinHeight(float _minHeight);
-	
-
+	void setVerticalSpeed(float _verticalSpeed);
+	void setHorizontalSpeed(float _horizontalSpeed);
+	float getVerticalSpeed();
+	float getHorizontalSpeed();
+	void setName(std::string _name);
+	std::string getName();
 };
 
 class RTSCamera:public Camera{

@@ -13,6 +13,7 @@ Camera * CameraManager::addCamera(int mode){
 		newCamera= new RTSCamera(mode);
 	}else{
 		newCamera= new Camera(mode);
+
 	}
 	newCamera->setMaxHeight(200);
 	newCamera->setMinHeight(2);
@@ -76,6 +77,10 @@ void Camera::move(Vector move){
 }
 
 void RTSCamera::move(Vector move){
+	move.x*=horizontalSpeed;
+	move.z*=horizontalSpeed;
+	move.y*=verticalSpeed;
+
 	vector3df camPos=getCameraNode()->getPosition();
 	vector3df camTar=getCameraNode()->getTarget();
 	camPos.X+=move.x;
@@ -136,4 +141,23 @@ int CameraManager::getNumberOfActiveCamera(){
 void CameraManager::setActiveCamera(Camera * _activeCamera){
 	activeCamera=_activeCamera;
 	menage->setActiveCamera(activeCamera->getCameraNode());
+	Console::writeTo(activeCamera->getName());
+}
+void Camera::setVerticalSpeed(float _verticalSpeed){
+	verticalSpeed=_verticalSpeed;
+}
+void Camera::setHorizontalSpeed(float _horizontalSpeed){
+	horizontalSpeed=_horizontalSpeed;
+}
+float Camera::getVerticalSpeed(){
+	return verticalSpeed;
+}
+float Camera::getHorizontalSpeed(){
+	return horizontalSpeed;
+}
+void Camera::setName(std::string _name){
+	name=_name;
+}
+std::string Camera::getName(){
+	return name;
 }

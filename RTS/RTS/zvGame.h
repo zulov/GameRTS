@@ -22,17 +22,19 @@ using namespace gui;
 using namespace std;
 
 class  Game{
+private:
+	
+	static CameraManager * cameraManager;
 public:
+	static CameraManager * getCameraManager();	
 	static IrrlichtDevice * device ;
 	static IVideoDriver * ivideo;
 	static ISceneManager * menage;
 
-	static ICameraSceneNode * kam;
 	static Camera * camera;
 	static gui::IGUIEnvironment* guienv;
 	static Control * klawiatura;
 
-	static CameraManager * cameraManager;
 	static GUIManager * guiManager;
 	static ListObject * allObiekt;
 	static PhysicWorld * fizWorld;
@@ -56,7 +58,8 @@ public:
 	static void prepareIrrlicht();
 	static void prepareZv();
 	static Settings * loadSettings();
-	static Camera * prepereCamera(int mode);
+	static void prepareCamera(int mode);
+	static void prepareCameraSet(int mode);
 
 	static MainGUI * getGUI(int num);
 	static float computeTimeDiff();

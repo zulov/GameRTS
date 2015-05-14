@@ -22,8 +22,7 @@ int main(){
 	Game::prepareIrrlicht();
 	Game::prepareZv();
 
-	Game::prepereCamera(RTS_CAMERA);
-	Game::prepereCamera(RTS_CAMERA);	
+	Game::prepareCameraSet(RTS_CAMERA);
 	
 	updateLoadBar(Game::getGUI(0),Game::ivideo,&loadProgres,20.0);
 	///////////////////////
@@ -35,7 +34,7 @@ int main(){
 	while( Game::device->run() ){
 		Game::computeTimeDiff();
 		show_fps();
-		if(Game::klawiatura->control(Game::device,Game::getTimeDiff(),Game::allObiekt, Game::getGUI(1),Game::cameraManager)==-1){Console::saveConsole(0); return 0;}
+		if(Game::klawiatura->control(Game::device,Game::getTimeDiff(),Game::allObiekt, Game::getGUI(1))==-1){Console::saveConsole(0); return 0;}
 		//        update_alive(Game::allObiekt,Game::fizWorld);
 		Game::fizWorld->move(Game::getTimeDiff());
 		Game::fizWorld->collision(Game::getTimeDiff());

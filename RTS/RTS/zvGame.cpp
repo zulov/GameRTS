@@ -3,7 +3,6 @@
 IrrlichtDevice * Game::device =0;
 IVideoDriver * Game::ivideo=0;
 ISceneManager * Game::menage=0;
-ICameraSceneNode * Game::kam=0;
 IGUIEnvironment * Game::guienv=0;
 Control * Game::klawiatura=0;
 GUIManager * Game::guiManager=0;
@@ -25,9 +24,7 @@ void Game::setVideo(IVideoDriver * _video){
 void Game::setSceneManager(ISceneManager * _manager){
 	menage=_manager;
 }
-void Game::addCamera(ICameraSceneNode * _kam){
-	kam=_kam;//nie ustawiac tylko dodac
-}
+
 void Game::setControl(Control * _klawiatura){
 	klawiatura=_klawiatura;
 }
@@ -91,10 +88,38 @@ Settings * Game::loadSettings(){
 	return Game::settStart;
 }
 
-Camera * Game::prepereCamera(int mode){
-	cameraManager= new CameraManager(menage);
+CameraManager * Game::getCameraManager(){
+	if(cameraManager==0){
+		cameraManager= new CameraManager(menage);
+		return cameraManager;
+	}else{
+		return cameraManager;
+	}
+}	
+
+void Game::prepareCamera(int mode){
+	cameraManager= getCameraManager();
 	cameraManager->addCamera(mode);
-	return cameraManager->addCamera(mode);
+}
+
+void Game::prepareCameraSet(int mode){
+	cameraManager= getCameraManager();
+
+	Camera * camera = cameraManager->addCamera(mode);
+	camera->setMaxHeight(100);
+	camera->setMinHeight(2);
+	camera->setHorizontalSpeed(10);
+	camera->setVerticalSpeed(10);
+	camera->setName("small cam");
+
+	camera = cameraManager->addCamera(mode);
+	camera->setMaxHeight(75);
+	camera->setMinHeight(2);
+	camera->setHorizontalSpeed(25);
+	camera->setVerticalSpeed(50);
+	camera->setName("big cam");
+
+
 }
 
 MainGUI * Game::getGUI(int num){
