@@ -109,8 +109,10 @@ void Game::prepareCameraSet(int mode){
 	camera->setMaxHeight(100);
 	camera->setMinHeight(2);
 	camera->setHorizontalSpeed(10);
-	camera->setVerticalSpeed(10);
+	camera->setVerticalSpeed(20);
 	camera->setName("small cam");
+	
+
 
 	camera = cameraManager->addCamera(mode);
 	camera->setMaxHeight(75);

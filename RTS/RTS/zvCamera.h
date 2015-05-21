@@ -11,6 +11,7 @@ protected:
 	float verticalSpeed;
 	float horizontalSpeed;
 	std::string name;
+
 public:
 	Camera();
 	Camera(int mode);
@@ -18,6 +19,7 @@ public:
 	ICameraSceneNode * getCameraNode();
 	int getCameraMode();
 	virtual void move(Vector move);
+	virtual void rotate(Vector rotate);
 	void setMaxHeight(float _maxHeight);
 	void setMinHeight(float _minHeight);
 	void setVerticalSpeed(float _verticalSpeed);
@@ -35,6 +37,7 @@ public:
 	RTSCamera();
 	RTSCamera(int mode);
 	virtual void move(Vector move);
+	virtual void rotate(Vector rotate);
 };
 
 class CameraManager{
@@ -52,6 +55,7 @@ public:
     void deleteCamera(Camera * camToDelete);
     void deleteCamera(int n);
 	void moveActiveCamera(Vector v);
+	void rotateActiveCamera(Vector rotate);
     CameraManager(ISceneManager * _menage);
 	void nextCamera();
 	void prevCamera();

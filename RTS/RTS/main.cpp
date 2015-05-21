@@ -34,7 +34,7 @@ int main(){
 	while( Game::device->run() ){
 		Game::computeTimeDiff();
 		show_fps();
-		if(Game::klawiatura->control(Game::device,Game::getTimeDiff(),Game::allObiekt, Game::getGUI(1))==-1){Console::saveConsole(0); return 0;}
+		if(Game::klawiatura->control(Game::getTimeDiff(),Game::getGUI(1))==-1){Console::saveConsole(0); return 0;}
 		//        update_alive(Game::allObiekt,Game::fizWorld);
 		Game::fizWorld->move(Game::getTimeDiff());
 		Game::fizWorld->collision(Game::getTimeDiff());

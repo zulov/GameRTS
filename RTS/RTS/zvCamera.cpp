@@ -20,7 +20,11 @@ Camera * CameraManager::addCamera(int mode){
 
 	newCamera->setCameraNode(menage->addCameraSceneNode());
 	newCamera->getCameraNode()->setFarValue(64000);
-	newCamera->getCameraNode()->setPosition(vector3df(0,1000,0));
+	newCamera->getCameraNode()->setPosition(vector3df(0,100,0));
+	newCamera->getCameraNode()->bindTargetAndRotation(true);
+	newCamera->getCameraNode()->setTarget(vector3df(0,2,100));
+	
+
 	activeCamera=newCamera;
 	cameraList.push_back(newCamera);
 	return newCamera;
@@ -72,7 +76,30 @@ int Camera::getCameraMode(){
 	return cameraMode;
 }
 
+
+
 void Camera::move(Vector move){
+
+}
+
+void Camera::rotate(Vector rotate){
+	rotate=rotate*5;
+	vector3df pos=getCameraNode()->getTarget();
+	vector3df posCam=getCameraNode()->getPosition();
+	float sin_t = sin(rotate.y*3.14/180);
+    float cos_t = cos(rotate.y*3.14/180);
+	float translated_x = pos.X - posCam.X;
+	float translated_z = pos.Z - posCam.Z;
+
+
+	pos.X = translated_x * cos_t - translated_z * sin_t+posCam.X;
+	pos.Z = translated_z * cos_t + translated_x * sin_t+posCam.Z;
+	getCameraNode()->setTarget(pos);
+	Console::writeTo(std::to_string(pos.X)+" "+ std::to_string(pos.Y)+" "+std::to_string(pos.Z));
+}
+
+void RTSCamera::rotate(Vector rotate){
+	Camera::rotate(rotate);
 
 }
 
@@ -86,22 +113,26 @@ void RTSCamera::move(Vector move){
 	camPos.X+=move.x;
 	camPos.Z+=move.z;
 	camPos.Y+=move.y*(camPos.Y/maxHeight);
+
 	if(camPos.Y<minHeight){
 		camPos.Y=minHeight;
 	}else if (camPos.Y>maxHeight){
 		camPos.Y=maxHeight;
 	}
 
-	camTar.Y=minHeight-1;//+od wyokosci w danym miejscu mapy  powinno byc
-	camTar.X=camPos.X;
-	camTar.Z=camPos.Z+50+(maxHeight/camPos.Y)*2;//uwzglednic minHeight
-	camTar.X=camPos.X-(maxHeight/camPos.Y)/2;//uwzglednic minHeight
+	camTar.X=camTar.X+move.x;
+	camTar.Z=camTar.Z+move.z;
+
 	getCameraNode()->setPosition(camPos);
 	getCameraNode()->setTarget(camTar);
+
 }
 
 void CameraManager::moveActiveCamera(Vector move){
 	getActiveCamera()->move(move);
+}
+void CameraManager::rotateActiveCamera(Vector rotate){
+	getActiveCamera()->rotate(rotate);
 }
 
 void Camera::setMaxHeight(float _maxHeight){

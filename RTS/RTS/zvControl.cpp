@@ -54,12 +54,12 @@ Control::Control(){
 }
 
 void Control::cleanPressed(void){
-	if (flagaKeyIsPressed==true){
-		for( u32 i = 0; i < KEY_KEY_CODES_COUNT; ++i ){
-			KeyIsPressed[i] = false;
-		}
-		flagaKeyIsPressed=false;
+	//if (flagaKeyIsPressed==true){
+	for( u32 i = 0; i < KEY_KEY_CODES_COUNT; ++i ){
+		KeyIsPressed[i] = false;
 	}
+	flagaKeyIsPressed=false;
+	//	}
 	MouseState.LeftButtonPressed=false;
 	MouseState.wheel=0;
 	//dopisac jescze jedn stan ze zdarzenie jest po kliknieciu
@@ -76,84 +76,74 @@ bool Control::OnKeyUp(irr::EKEY_CODE key){
 	return true;
 }
 
-int Control::control(IrrlichtDevice * device,f32 frameDeltaTime,ListObject*allObiekt, 
-					 MainGUI * mainGUI){
+int Control::control(f32 frameDeltaTime,MainGUI * mainGUI){
 	float moveFactor=frameDeltaTime;
 	if( getWheelState()!=0 ){
 		Game::getCameraManager()->moveActiveCamera(Vector(0,-moveFactor*getWheelState(),0));
+		Game::getCameraManager()->rotateActiveCamera(Vector(-moveFactor*getWheelState(),0,0));
+	}
+	if( this->IsKeyDown( irr::KEY_PLUS ) ){
+		Game::getCameraManager()->moveActiveCamera(Vector(0,moveFactor,0));
+	}
+	if( this->IsKeyDown( irr::KEY_MINUS ) ){
+		Game::getCameraManager()->moveActiveCamera(Vector(0,-moveFactor,0));
 	}
 
-	if( this->IsKeyDown( irr::KEY_KEY_W ) || this->IsKeyDown( irr::KEY_UP ) )
-	{
-		Game::getCameraManager()->moveActiveCamera(Vector(0,0,moveFactor));
+	if( this->IsKeyDown( irr::KEY_KEY_W ) || this->IsKeyDown( irr::KEY_UP ) ){
+		vector3df rot=Game::getCameraManager()->getActiveCamera()->getCameraNode()->getRotation();
+		float rad_Y=-((rot.Y-90)*3.14)/180.0f;
+		Game::getCameraManager()->moveActiveCamera(Vector(moveFactor*cos(rad_Y),0,moveFactor*sin(rad_Y)));
 	}
-	if( this->IsKeyDown( irr::KEY_KEY_S ) || this->IsKeyDown( irr::KEY_DOWN)  )
-	{
-		Game::getCameraManager()->moveActiveCamera(Vector(0,0,-moveFactor));
-	}
-	if( this->IsKeyDown( irr::KEY_KEY_A ) || this->IsKeyDown( irr::KEY_LEFT) )
-	{
-		Game::getCameraManager()->moveActiveCamera(Vector(-moveFactor,0,0));
-	}
-	if( this->IsKeyDown( irr::KEY_KEY_D ) || this->IsKeyDown( irr::KEY_RIGHT)  )
-	{
-		Game::getCameraManager()->moveActiveCamera(Vector(moveFactor,0,0));
-	}
-	if( this->IsKeyDown( irr::KEY_KEY_Q ) )
-	{
-		
-	}
-	if( this->IsKeyDown( irr::KEY_KEY_E ) )
-	{
 
+	if( this->IsKeyDown( irr::KEY_KEY_S ) || this->IsKeyDown( irr::KEY_DOWN)  )	{
+		vector3df rot=Game::getCameraManager()->getActiveCamera()->getCameraNode()->getRotation(); 
+		double rad_Y=-((rot.Y-90)*3.14)/180.0f;
+		Game::getCameraManager()->moveActiveCamera(Vector(-moveFactor*cos(rad_Y),0,-moveFactor*sin(rad_Y)));
 	}
-	if( this->IsKeyDown( irr::KEY_KEY_C ) )
-	{
-		
-	}
-	if( this->IsKeyDown( irr::KEY_KEY_Z ) )
-	{
-	
-	}
-	if( this->IsKeyPressed( irr::KEY_SPACE ) )
-	{
-		Game::createUnit(Vector(std::rand()%50,2000,std::rand()%50));
-	}
-	if( this->IsKeyPressed( irr::KEY_KEY_I) )
-	{//item
-		
-	}
-	else if( this->IsKeyPressed( irr::KEY_KEY_L) )
-	{//leksykon wiedzy
 
+	if( this->IsKeyDown( irr::KEY_KEY_A ) || this->IsKeyDown( irr::KEY_LEFT) ){
+		vector3df rot=Game::getCameraManager()->getActiveCamera()->getCameraNode()->getRotation();
+		float rad_Y=-(rot.Y*3.14f)/180.0f;
+		Game::getCameraManager()->moveActiveCamera(Vector(-moveFactor*cos(rad_Y),0,-moveFactor*sin(rad_Y)));
 	}
-	else if( this->IsKeyPressed( irr::KEY_KEY_M) )
-	{//mapa
-		
+
+	if( this->IsKeyDown( irr::KEY_KEY_D ) || this->IsKeyDown( irr::KEY_RIGHT)  ){
+		vector3df rot=Game::getCameraManager()->getActiveCamera()->getCameraNode()->getRotation();
+		float rad_Y=-(rot.Y*3.14f)/180.0f;
+		Game::getCameraManager()->moveActiveCamera(Vector(moveFactor*cos(rad_Y),0,moveFactor*sin(rad_Y)));
 	}
-	else if( this->IsKeyPressed( irr::KEY_KEY_U) )
-	{//skills+staty
-		
+
+	if( this->IsKeyDown( irr::KEY_KEY_Q ) ){
+		Game::getCameraManager()->rotateActiveCamera(Vector(0,moveFactor,0));
 	}
-	else if( this->IsKeyPressed( irr::KEY_OEM_3 ) )
-	{//console
+
+
+	if( this->IsKeyPressed( irr::KEY_SPACE ) ){
+		Game::createUnit(Vector(std::rand()%20,20,std::rand()%20));
+	}
+
+	if( this->IsKeyPressed( irr::KEY_KEY_I) ){//item
+
+	}else if( this->IsKeyPressed( irr::KEY_OEM_3 ) ){//console
 		if(mainGUI->allowedType==5){mainGUI->allowedType=0;}
 		else{mainGUI->allowedType=5;}
 	}
-	if( this->IsKeyPressed( irr::KEY_F11 ) )
-	{
+
+	if( this->IsKeyPressed( irr::KEY_F11 ) ){
 		Game::getCameraManager()->prevCamera();
 	}
 	else if( this->IsKeyPressed( irr::KEY_F12 ) ){
 		Game::getCameraManager()->nextCamera();
 	}
+
+
 	if( this->IsMousePressed() )
 	{
-		
+
 	}
 	else if( this->IsKeyDown( irr::KEY_ESCAPE ) )
 	{
-		device->drop();
+		Game::device->drop();
 		return -1;
 	}
 	this->cleanPressed();
